@@ -1,10 +1,10 @@
 const { db } = require("../config/firebase");
 const { sendNotification } = require("../services/notificationService");
 
-function campusActivityListener() {
-    console.log("🚀 Campus Activity Listener started...");
+function noticeListener() {
+    console.log("🚀 Notice Listener started...");
     let isInitialLoad = true;
-    db.collection("campus activity").onSnapshot((snapshot) => {
+    db.collection("notice pdfs").onSnapshot((snapshot) => {
         if (isInitialLoad) {
             isInitialLoad = false;
             return;
@@ -12,18 +12,16 @@ function campusActivityListener() {
 
         snapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
-                const newMsg = change.doc.data();
-                console.log("📨 New campus activity:", newMsg);
+                const newNotice = change.doc.data();
+                console.log("New Notice :", newNotice);
 
                 // Example: broadcast to everyone
                 db.collection("users").get().then((snap) => {
                     const tokens = snap.docs.map((doc) => doc.data().token).filter(Boolean);
                     sendNotification(tokens, {
-                        title: "📨 Campus Activity",
-                        body: newMsg.message,
-                        click_action: "OPEN_CAMPUS_ACTIVITY",
-                        messagePosition: newMsg?.position.toString(),
-                        messageType: "campus_activity_notification",
+                        title: "New Notice Release",
+                        body: "📄 "+newNotice?.fileName,
+                        messageType: "new_notice_notification",
                     });
                 });
             }
@@ -31,4 +29,4 @@ function campusActivityListener() {
     });
 }
 
-module.exports = { campusActivityListener };
+module.exports = { noticeListener };

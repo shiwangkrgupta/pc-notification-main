@@ -1,13 +1,13 @@
 const { messaging } = require("../config/firebase");
 
-async function sendNotification(tokens, title, body, extraData = {}) {
+async function sendNotification(tokens, data) {
   if (!tokens || tokens.length === 0) {
     console.log("⚠️ No tokens to notify");
     return;
   }
 
   const multicastMsg = {
-    data: {title, body, ...extraData},  // chatId, messageType etc.
+    data: data,  // chatId, messageType etc.
     tokens,
   };
 
