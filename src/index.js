@@ -16,6 +16,7 @@ noticeListener();
 // 🔥 ping endpoint
 app.get("/ping", (req, res) => {
   res.send("ok");
+  console.log("Recieved ping request -> Ping : OK")
 });
 
 // start server
