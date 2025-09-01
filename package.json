@@ -12,6 +12,7 @@
   "type": "commonjs",
   "dependencies": {
     "dayjs": "^1.11.18",
+    "dotenv": "^17.2.1",
     "firebase-admin": "^13.5.0"
   }
 }
