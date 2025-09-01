@@ -1,0 +1,14 @@
+name: Keep Render Service Alive
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"  # runs every 10 minutes
+  workflow_dispatch:        # lets you trigger manually too
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl Render Service
+        run: |
+          curl -s https://pc-notification-main.onrender.com/ping > /dev/null
